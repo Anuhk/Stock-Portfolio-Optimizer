@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>User Stock Portfolio</h3>
+<form method="post">{% csrf_token %}
+  <div class="mb-3">
+    <label>Select Company</label>
+    <select name="company_id" class="form-select" required>
+      <option disabled selected value="">Choose Company</option>
+      {% for company in companies %}
+        <option value="{{ company.0 }}">{{ company.1 }} (ID: {{ company.0 }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="mb-3"><label>Total Shares</label><input type="number" name="tot_shares" class="form-control"></div>
+  <div class="mb-3"><label>Average Price</label><input type="number" name="avg_price" step="0.01" class="form-control"></div>
+  <button type="submit" class="btn btn-success">Add to Portfolio</button>
+</form>
+{% endblock %}

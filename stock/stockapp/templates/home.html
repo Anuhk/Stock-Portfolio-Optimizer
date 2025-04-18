@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background-color: #0d1117;
+        color: #c9d1d9;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+        padding-top: 50px;
+    }
+
+    h1 {
+        font-size: 3rem;
+        color: #58a6ff;
+        margin-bottom: 10px;
+        animation: fadeInDown 1s ease;
+    }
+
+    .tagline {
+        font-size: 1.3rem;
+        color: #8b949e;
+        font-weight: 700;
+        margin-bottom: 40px;
+        animation: fadeInDown 1.2s ease;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        font-size: 1.2rem;
+        margin: 10px;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background-color: #1f6feb;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #388bfd;
+        transform: scale(1.05);
+    }
+
+    .btn-secondary {
+        background-color: #30363d;
+        color: #c9d1d9;
+    }
+
+    .btn-secondary:hover {
+        background-color: #484f58;
+        transform: scale(1.05);
+    }
+
+    .section {
+        margin-top: 30px;
+    }
+
+    .section p {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        color: #c9d1d9;
+    }
+
+    .carousel {
+        width: 80%;
+        margin: 40px auto;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .carousel-item img {
+        height: 400px;
+        object-fit: cover;
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<!-- Image Carousel -->
+<!-- Image Carousel -->
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static 'images/stock_market_graph.jpg' %}" class="d-block w-100" alt="Stock Market Graph">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'images/financial_growth.jpg' %}" class="d-block w-100" alt="Financial Growth">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'images/businessman_charts.jpg' %}" class="d-block w-100" alt="Charts Analysis">
+      </div>
+    </div>
+  </div>
+  
+<!-- Main Content -->
+<div>
+    <h1>Welcome to <strong>Fintastic</strong>!</h1>
+    <div class="tagline">Your smart assistant for a better financial future.</div>
+
+    <div class="section">
+        <p>Already have an account?</p>
+        <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
+    </div>
+
+    <div class="section">
+        <p>Coming for the first time?</p>
+        <a class="btn btn-secondary" href="{% url 'register' %}">Register Yourself</a>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

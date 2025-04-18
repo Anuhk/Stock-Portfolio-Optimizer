@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Add Company Stock Info</h3>
+<form method="post">{% csrf_token %}
+  <div class="mb-3"><label>Company ID</label><input type="number" name="company_id" class="form-control" required></div>
+  <div class="mb-3"><label>Company Name</label><input type="text" name="cname" class="form-control" required></div>
+  <div class="mb-3"><label>Date</label><input type="date" name="currdate" class="form-control" required></div>
+  <div class="mb-3"><label>Open Rate</label><input type="number" step="0.01" name="openrate" class="form-control"></div>
+  <div class="mb-3"><label>Close Rate</label><input type="number" step="0.01" name="closerate" class="form-control"></div>
+  <div class="mb-3"><label>Day High</label><input type="number" step="0.01" name="dayhigh" class="form-control"></div>
+  <div class="mb-3"><label>Day Low</label><input type="number" step="0.01" name="daylow" class="form-control"></div>
+  <button type="submit" class="btn btn-success">Add Stock</button>
+</form>
+{% endblock %}

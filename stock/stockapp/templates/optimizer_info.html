@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background-color: #0d1117;
+        color: #c9d1d9;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding-top: 60px;
+    }
+
+    .info-container {
+        background-color: #161b22;
+        border-radius: 12px;
+        padding: 40px;
+        max-width: 800px;
+        margin: auto;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        animation: fadeIn 1s ease-in;
+    }
+
+    h2, h3 {
+        color: #58a6ff;
+        margin-bottom: 20px;
+    }
+
+    ul {
+        list-style-type: "👉 ";
+        padding-left: 20px;
+        margin-bottom: 20px;
+    }
+
+    p {
+        line-height: 1.7;
+        margin-bottom: 20px;
+    }
+
+    .highlight {
+        background-color: #21262d;
+        border-left: 4px solid #58a6ff;
+        padding: 10px 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="info-container">
+    <h2>Hey there! </h2>
+    <p>
+        Whether you're just starting out with investing or want to make your money work smarter, you’re in the right place. 
+        This tool helps you build the best mix of investments based on your goals, risk level, and budget.
+    </p>
+
+    <div class="highlight">
+        <h3>💡 What Is a Portfolio Optimizer?</h3>
+        <p>
+            A portfolio optimizer is like a smart assistant for your investments. It suggests how much you should invest in 
+            different assets (like stocks, crypto, ETFs, etc.) to balance risk and return based on your preferences.
+        </p>
+        <p>
+            Think of it like mixing the perfect playlist – but instead of songs, you’re picking investments.
+        </p>
+    </div>
+
+    <div class="highlight">
+        <h3>🚀 How to Use the Tool</h3>
+        <ul>
+            <li><strong>💰 Budget</strong> – How much are you investing?</li>
+            <li><strong>🎯 Goal</strong> – Growth, stability, or a mix?</li>
+            <li><strong>⚡ Risk Level</strong> – Chill (low), Balanced (medium), or Bold (high)?</li>
+        </ul>
+        <p>Then choose what you care about: tech stocks, clean energy, crypto, etc.</p>
+        <p>Finally, hit the <strong>"Optimize"</strong> button and get your recommended portfolio instantly.</p>
+    </div>
+
+    <div class="highlight">
+        <h3>🧠 What Do the Results Mean?</h3>
+        <ul>
+            <li><strong>Suggested Allocation</strong>: How much % to put in each asset.</li>
+            <li><strong>Expected Return</strong>: A rough idea of how much your investments might grow.</li>
+            <li><strong>Risk Level</strong>: Higher return usually means more risk. We help you find the right balance.</li>
+            <li><strong>Diversification Score</strong>: Shows how "spread out" your investments are. More variety = less risk.</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
