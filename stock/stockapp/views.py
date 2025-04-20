@@ -15,6 +15,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import base64
 import io
+import heapq
+import pandas as pd
 from django.shortcuts import render, redirect
 from django.db import connection
 from scipy.optimize import minimize
@@ -340,3 +342,50 @@ def portfolio_result(request):
 
 def optimizer_info(request):
     return render(request, 'optimizer_info.html')
+
+
+
+
+
+def suggest_stocks(request):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Fetch all required data
+    cursor.execute("""
+        SELECT company_id, cname, returnrate, volatility
+        FROM company_stock
+    """)
+    rows = cursor.fetchall()
+    conn.close()
+
+    # Initialize an empty list to store heap elements
+    heap = []
+    risk_free_rate = 0.02  # 2% annual risk-free rate
+
+    for row in rows:
+        company_id, name, mean_return, volatility = row
+        try:
+            if volatility is None or volatility == 0:
+                continue
+            mean_return = float(mean_return)
+            volatility = float(volatility)
+            sharpe_ratio = (mean_return - risk_free_rate) / volatility
+
+            # Push the negative Sharpe ratio into the heap (max-heap simulation)
+            heapq.heappush(heap, (-sharpe_ratio, name))
+        except Exception as e:
+            print(f"Error with stock {name}: {e}")
+            continue
+
+    # Extract the top 3 stocks with the highest Sharpe ratio
+    top_stocks = []
+    for i in range(min(3, len(heap))):
+        sharpe_ratio, name = heapq.heappop(heap)
+        top_stocks.append({
+            'rank': i + 1,
+            'name': name,
+            'sharpe_ratio': round(-sharpe_ratio, 3)  # Convert back to positive value
+        })
+
+    return render(request, 'suggested_stocks.html', {'top_stocks': top_stocks})
