@@ -53,6 +53,21 @@
             border: 2px solid #00aaff;
             border-radius: 10px;
         }
+        .btn {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        margin: 10px;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+        display: inline-block;
+    }
+
+    .btn-secondary {
+        background-color: #30363d;
+        color: #c9d1d9;
+    }
+
     </style>
 </head>
 <body>
@@ -86,10 +101,13 @@
 
         <h3>Portfolio Allocation</h3>
         <img src="data:image/png;base64,{{ pie_img }}" alt="Optimized Portfolio Allocation">
-
+        
+        <a href="{% url 'suggest_stocks' %}" class="btn btn-secondary">Get Top Stock Suggestions</a>
         
 
     </div>
 </body>
 </html>
+
+
 {% endblock %}
