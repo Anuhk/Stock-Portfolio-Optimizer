@@ -66,6 +66,21 @@
             transform: translateY(0);
         }
     }
+
+    .btn {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        margin: 10px;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+        display: inline-block;
+    }
+
+    .btn-secondary {
+        background-color: #30363d;
+        color: #c9d1d9;
+    }
 </style>
 
 <div class="table-container">
@@ -86,6 +101,9 @@
         </tr>
         {% endfor %}
     </table>
+
+    <a href="{% url 'main_menu' %}" class="btn btn-secondary">Go to home page</a>
+
 </div>
 
 {% endblock %}
