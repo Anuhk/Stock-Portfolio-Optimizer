@@ -48,9 +48,9 @@ def login_user(request):
         conn.close()
 
         if user:
-            request.session['user_id'] = user[0]     # Assuming user_id is in column 0
+            request.session['user_id'] = user[0]     #  user_id is in column 0
             request.session['uname'] = user[1] 
-            print(request.session['user_id'])      # Assuming uname is in column 1
+            print(request.session['user_id'])      # uname is in column 1
             return redirect('main_menu')
         else:
             messages.error(request, "Invalid username or password")
@@ -79,53 +79,7 @@ def register(request):
 
 def main_menu(request):
     return render(request, 'main_menu.html')
-def add_stock(request):
-    if request.method == 'POST':
-        company_id = request.POST['company_id']
-        cname = request.POST['cname']
-        currdate = request.POST['currdate']
-        openrate = request.POST['openrate']
-        closerate = request.POST['closerate']
-        dayhigh = request.POST['dayhigh']
-        daylow = request.POST['daylow']
 
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("""
-            INSERT INTO COMPANY_STOCK (COMPANY_ID, CNAME, CURRDATE, OPENRATE, CLOSERATE, DAYHIGH, DAYLOW)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """, (company_id, cname, currdate, openrate, closerate, dayhigh, daylow))
-        conn.commit()
-        conn.close()
-
-        return redirect('main_menu')
-
-    return render(request, 'add_stock.html')
-
-def user_portfolio(request):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT COMPANY_ID, CNAME FROM COMPANY_STOCK GROUP BY COMPANY_ID")
-    companies = cursor.fetchall()
-
-    if request.method == 'POST':
-        user_id = request.session.get('user_id')
-        company_id = request.POST['company_id']
-        tot_shares = request.POST['tot_shares']
-        avg_price = request.POST['avg_price']
-        total_price = float(tot_shares) * float(avg_price)
-
-        cursor.execute("""
-            INSERT INTO USER_SHARES (USER_ID, COMPANY_ID, TOT_SHARES, AVERAGE_PRICE, TOTAL_PRICE)
-            VALUES (%s, %s, %s, %s, %s)
-        """, (user_id, company_id, tot_shares, avg_price, total_price))
-        conn.commit()
-        conn.close()
-        return redirect('main_menu')
-
-    conn.close()
-    return render(request, 'user_portfolio.html', {'companies': companies})
 
 
 
@@ -159,6 +113,7 @@ def mean_variance_optimization(returns, cov_matrix, risk_free_rate=0.01):
 
  
 def create_portfolio(request):
+    #Debug statements
     #print("User:", request.user)
     #user_id = request.user.id
    
