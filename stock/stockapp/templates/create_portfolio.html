@@ -27,6 +27,27 @@
             text-align: center;
             margin-bottom: 20px;
         }
+        .search-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .search-container input {
+            padding: 8px;
+            width: 70%;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            border: 1px solid #444;
+        }
+        .stock-dropdown {
+            width: 100%;
+            padding: 8px;
+            background-color: #333;
+            border-radius: 5px;
+            border: 1px solid #444;
+            color: white;
+            margin-bottom: 15px;
+        }
         .stock-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -42,8 +63,7 @@
             margin-bottom: 6px;
             font-weight: bold;
         }
-        .stock-box input[type="number"],
-        .stock-box input[type="hidden"] {
+        .stock-box input[type="number"] {
             width: 100%;
             padding: 8px;
             background-color: #333;
@@ -84,15 +104,17 @@
         {% if error %}
             <p class="error">{{ error }}</p>
         {% endif %}
+
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Search for a company..." onkeyup="filterCompanies()">
+        </div>
+
         <form method="POST">
             {% csrf_token %}
             <div class="stock-grid">
                 {% for stock in stocks %}
-                    <div class="stock-box">
+                    <div class="stock-box" id="stock_{{ stock.company_id }}">
                         <label>{{ stock.company_name }}</label>
-                        {% comment %}
-                        <!-- <input type="hidden" name="company_ids" value="{{ stock.company_id }}"> -->
-                        {% endcomment %}
                         <input type="number" name="shares_{{ stock.company_id }}" placeholder="Number of shares" min="0">
                     </div>
                 {% endfor %}
@@ -100,6 +122,23 @@
             <button type="submit" class="submit-btn">Optimize Portfolio</button>
         </form>
     </div>
+
+    <script>
+        function filterCompanies() {
+            var input = document.getElementById('search');
+            var filter = input.value.toLowerCase();
+            var stocks = document.querySelectorAll('.stock-box');
+
+            stocks.forEach(function(stock) {
+                var companyName = stock.querySelector('label').textContent.toLowerCase();
+                if (companyName.indexOf(filter) > -1) {
+                    stock.style.display = '';
+                } else {
+                    stock.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
 

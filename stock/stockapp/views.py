@@ -22,7 +22,11 @@ from django.db import connection
 from scipy.optimize import minimize
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-
+from .utils import fetch_returns_and_covariance
+from background_task.models import Task
+from datetime import datetime, timedelta
+from .tasks import fetch_stock_data_task
+from django.http import HttpResponse
 
 
 def get_db_connection():
@@ -111,13 +115,7 @@ def mean_variance_optimization(returns, cov_matrix, risk_free_rate=0.01):
 
     return result.x
 
- 
 def create_portfolio(request):
-    #Debug statements
-    #print("User:", request.user)
-    #user_id = request.user.id
-   
-    #print("User ID:", user_id)
     user_id = request.session.get('user_id')
     print("Session User:", request.session.get('uname'))
     print("Session User ID:", user_id)
@@ -182,6 +180,7 @@ def create_portfolio(request):
     # GET request
     stocks = fetch_company_stocks()
     return render(request, 'create_portfolio.html', {'stocks': stocks})
+
 
 
 
@@ -344,3 +343,26 @@ def suggest_stocks(request):
         })
 
     return render(request, 'suggested_stocks.html', {'top_stocks': top_stocks})
+
+
+# stockapp/views.py or wherever you'd like to trigger the task
+
+
+def schedule_task():
+    now = datetime.now()
+    # Set the target time for 10 AM today
+    target_time = now.replace(hour=10, minute=0, second=0, microsecond=0)
+    
+    # If it's already past 10 AM, schedule for 10 AM the next day
+    if now > target_time:
+        target_time += timedelta(days=1)
+    
+    # Calculate the difference in seconds
+    seconds_until_10am = (target_time - now).total_seconds()
+
+    # Schedule the task to run at 10 AM
+    fetch_stock_data_task(schedule=seconds_until_10am, repeat=Task.DAILY)
+
+def start_scheduling(request):
+    schedule_task()  # This will schedule the task for the next day at 10 AM
+    return HttpResponse("Task scheduled for 10 AM every day.")
