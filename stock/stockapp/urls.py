@@ -10,4 +10,5 @@ urlpatterns = [
     path('portfolio_result/', views.portfolio_result, name='portfolio_result'),
     path('optimizer_info/', views.optimizer_info, name='optimizer_info'),
     path('suggest_stocks/', views.suggest_stocks, name='suggest_stocks'),
+    path('set-alert/', views.set_alert, name='set_alert'),
 ]

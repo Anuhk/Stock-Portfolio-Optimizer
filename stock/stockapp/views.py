@@ -366,3 +366,32 @@ def schedule_task():
 def start_scheduling(request):
     schedule_task()  # This will schedule the task for the next day at 10 AM
     return HttpResponse("Task scheduled for 10 AM every day.")
+
+
+def set_alert(request):
+    if request.method == "POST":
+        company_id = request.POST.get("company_id")
+        alert_type = request.POST.get("alert_type")
+        threshold = request.POST.get("threshold")
+
+        # Assuming you store alerts in a table named 'stock_alerts'
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("""
+                    INSERT INTO stock_alerts (user_id, company_id, alert_type, threshold_value, created_at)
+                    VALUES (%s, %s, %s, %s, NOW())
+                """, [request.session['uid'], company_id, alert_type, threshold])
+            messages.success(request, "Alert created successfully.")
+        except Exception as e:
+            messages.error(request, f"Failed to create alert: {str(e)}")
+
+        return redirect('set_alert')
+
+    # On GET: fetch list of stocks
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT company_id, company_name FROM company_stock")
+        stocks = [
+            {'company_id': row[0], 'company_name': row[1]}
+            for row in cursor.fetchall()
+        ]
+    return render(request, "set_alert.html", {"stocks": stocks})
