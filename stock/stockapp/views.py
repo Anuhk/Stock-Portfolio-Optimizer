@@ -389,7 +389,7 @@ def set_alert(request):
 
     # On GET: fetch list of stocks
     with connection.cursor() as cursor:
-        cursor.execute("SELECT company_id, company_name FROM company_stock")
+        cursor.execute("SELECT company_id, cname FROM company_stock")
         stocks = [
             {'company_id': row[0], 'company_name': row[1]}
             for row in cursor.fetchall()
